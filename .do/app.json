@@ -1,0 +1,43 @@
+{
+    "spec": {
+        "name": "test-page",
+        "region": "nyc",
+        "services": [
+            {
+                "name": "web",
+                "github": {
+                    "repo": "baltap/coverletter",
+                    "branch": "main",
+                    "deploy_on_push": true
+                },
+                "instance_count": 1,
+                "instance_size_slug": "basic-xxs",
+                "http_port": 3000,
+                "build_command": "npm run build",
+                "run_command": "npm run start",
+                "envs": [
+                    {
+                        "key": "NEXT_PUBLIC_CONVEX_URL",
+                        "scope": "RUN_AND_BUILD_TIME",
+                        "value": "https://hidden-dinosaur-270.convex.cloud"
+                    },
+                    {
+                        "key": "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+                        "scope": "RUN_AND_BUILD_TIME",
+                        "value": "pk_test_aGFwcHktYW50ZWxvcGUtODIuY2xlcmsuYWNjb3VudHMuZGV2JA"
+                    },
+                    {
+                        "key": "CLERK_SECRET_KEY",
+                        "scope": "RUN_TIME",
+                        "value": "sk_test_ni3vzvtZ6O9I3U1Tnz9T1S55Ty8fAHOR9vAZteTdTD"
+                    },
+                    {
+                        "key": "CONVEX_DEPLOYMENT",
+                        "scope": "RUN_AND_BUILD_TIME",
+                        "value": "prod:hidden-dinosaur-270"
+                    }
+                ]
+            }
+        ]
+    }
+}
