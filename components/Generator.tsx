@@ -42,7 +42,28 @@ export default function Generator() {
     const [isUpgrading, setIsUpgrading] = useState(false);
 
     const handleUpgrade = useCallback(async () => {
-        // ... (existing code omitted for brevity but keeping start/end markers)
+        setIsUpgrading(true);
+        setError("");
+        console.log("Starting upgrade process...");
+        try {
+            const response = await fetch("/api/stripe/checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await response.json();
+            console.log("Upgrade API Response:", data);
+
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                setError(data.error || "Failed to initiate checkout. Please check the console.");
+                setIsUpgrading(false);
+            }
+        } catch (error: any) {
+            console.error("Upgrade failed:", error);
+            setError("Something went wrong with the payment system. Please try again later.");
+            setIsUpgrading(false);
+        }
     }, [user]);
 
     // Derived Capacity Tracking
@@ -690,7 +711,7 @@ export default function Generator() {
                                 </div>
                                 <button
                                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                                    className="w-full py-4 border border-charcoal text-[10px] font-black uppercase tracking-[0.2em] hover:bg-zinc-50 transition-colors"
+                                    className="w-full py-4 border border-charcoal text-[10px] font-black uppercase tracking-[0.2em] hover:bg-zinc-50 transition-colors cursor-pointer"
                                 >
                                     Start Generating
                                 </button>
@@ -709,7 +730,7 @@ export default function Generator() {
                                     </button>
                                 ) : (
                                     <SignUpButton mode="modal">
-                                        <button className="w-full py-4 bg-charcoal text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary transition-colors">
+                                        <button className="w-full py-4 bg-charcoal text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary transition-colors cursor-pointer">
                                             Sign Up Free
                                         </button>
                                     </SignUpButton>
@@ -736,7 +757,7 @@ export default function Generator() {
                                                 afterSignInUrl: "/?trigger_upgrade=true"
                                             });
                                         }}
-                                        className="w-full py-4 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] hover:brightness-110 transition-all"
+                                        className="w-full py-4 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] hover:brightness-110 transition-all cursor-pointer"
                                     >
                                         Get Lifetime Max
                                     </button>
@@ -748,7 +769,7 @@ export default function Generator() {
                                     <button
                                         onClick={handleUpgrade}
                                         disabled={isUpgrading}
-                                        className="w-full py-4 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] hover:brightness-110 transition-all disabled:opacity-50"
+                                        className="w-full py-4 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
                                     >
                                         {isUpgrading ? "Preparing..." : "Get Lifetime Max"}
                                     </button>
