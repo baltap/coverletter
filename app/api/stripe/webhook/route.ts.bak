@@ -1,0 +1,44 @@
+import { NextResponse } from "next/server";
+import { headers } from "next/headers";
+import Stripe from "stripe";
+import { ConvexHttpClient } from "convex/browser";
+import { api } from "@/convex/_generated/api";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: "2025-01-27.acacia" as any,
+});
+
+const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+
+export async function POST(req: Request) {
+    try {
+        const body = await req.text();
+        const headerList = await headers();
+        const signature = headerList.get("Stripe-Signature") || "";
+
+        const event = stripe.webhooks.constructEvent(
+            body,
+            signature,
+            process.env.STRIPE_WEBHOOK_SECRET!
+        );
+
+        if (event.type === "checkout.session.completed") {
+            const session = event.data.object as Stripe.Checkout.Session;
+            const clerkUserId = session?.metadata?.clerkUserId;
+
+            if (clerkUserId) {
+                const tokenIdentifier = `https://happy-antelope-82.clerk.accounts.dev|${clerkUserId}`;
+
+                await convex.mutation(api.payments.markUserAsPro as any, {
+                    tokenIdentifier,
+                    stripeCustomerId: (session.customer as string) || undefined,
+                });
+            }
+        }
+
+        return new NextResponse("Webhook processed", { status: 200 });
+    } catch (err: any) {
+        console.error("Stripe Webhook Error:", err.message);
+        return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
+    }
+}

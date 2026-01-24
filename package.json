@@ -1,5 +1,5 @@
 {
-  "name": "test-page",
+  "name": "cover-letter-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,10 +14,19 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.56.0",
     "@clerk/nextjs": "^6.35.2",
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.13.2",
+    "cheerio": "^1.1.2",
     "convex": "^1.31.0",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.562.0",
+    "mammoth": "^1.11.0",
     "next": "^16.0.10",
+    "pdfjs-dist": "^5.4.530",
     "react": "^19.2.1",
-    "react-dom": "^19.2.1"
+    "react-dom": "^19.2.1",
+    "react-dropzone": "^14.3.8",
+    "stripe": "^20.2.0"
   },
   "devDependencies": {
     "@convex-dev/eslint-plugin": "^1.1.1",
