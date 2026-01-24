@@ -18,7 +18,8 @@ const REQUIRED_KEYS = [
     'STRIPE_SECRET_KEY',
     'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
     'STRIPE_WEBHOOK_SECRET',
-    'GEMINI_API_KEY'
+    'GEMINI_API_KEY',
+    'NEXT_PUBLIC_APP_URL'
 ];
 
 // Production Defaults we know

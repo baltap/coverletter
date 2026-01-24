@@ -13,6 +13,8 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
+        const origin = req.headers.get("origin") || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             line_items: [
@@ -29,8 +31,8 @@ export async function POST(req: Request) {
                 },
             ],
             mode: "payment",
-            success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/?success=true`,
-            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/?canceled=true`,
+            success_url: `${origin}/?success=true`,
+            cancel_url: `${origin}/?canceled=true`,
             metadata: {
                 clerkUserId: userId,
             },
