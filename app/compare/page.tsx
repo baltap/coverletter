@@ -16,7 +16,7 @@ export default function ComparePage() {
                         Scribe.CV <span className="italic">vs.</span> The Market.
                     </h1>
                     <p className="text-xl md:text-2xl text-charcoal/60 leading-relaxed max-w-2xl">
-                        A clinical breakdown of how the Scribe Alignment Engine stacks up against generic AI templates and legacy resume builders.
+                        A clinical breakdown of how the Scribe.CV Alignment Engine stacks up against generic AI templates and legacy resume builders.
                     </p>
                 </div>
 

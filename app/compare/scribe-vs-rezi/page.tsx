@@ -36,7 +36,7 @@ export default function ScribeVsRezi() {
                         <div className="absolute top-0 right-0 p-8">
                             <Sparkles size={24} className="text-primary animate-pulse" />
                         </div>
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Scribe Advantage</h2>
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Scribe.CV Advantage</h2>
                         <h3 className="serif-heading text-4xl font-extrabold leading-tight">Editorial Precision.</h3>
                         <p className="text-sm text-white/50 leading-relaxed font-medium">
                             Scribe.CV treats the cover letter as a high-stakes editorial document. We don't just "hit keywords"; we weave those keywords into a compelling narrative that mirrors your personal brand's alignment with the job's requirements.

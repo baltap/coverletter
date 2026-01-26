@@ -27,7 +27,9 @@ export async function POST(req: Request) {
             const clerkUserId = session?.metadata?.clerkUserId;
 
             if (clerkUserId) {
-                const tokenIdentifier = `https://happy-antelope-82.clerk.accounts.dev|${clerkUserId}`;
+                // Ensure this matches the domain in your convex/auth.config.ts
+                const clerkDomain = process.env.CLERK_JWT_ISSUER_DOMAIN || "https://happy-antelope-82.clerk.accounts.dev";
+                const tokenIdentifier = `${clerkDomain}|${clerkUserId}`;
 
                 await convex.mutation(api.payments.markUserAsMax as any, {
                     tokenIdentifier,

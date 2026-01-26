@@ -37,7 +37,7 @@ export default function Header() {
 
     return (
         <div className="relative w-full">
-            <header className="flex items-center justify-between px-6 md:px-20 py-6 fixed top-0 left-0 right-0 z-[150] bg-white/40 backdrop-blur-md saturate-[200%] border-b border-white/30 shadow-md w-full">
+            <header className="flex items-center justify-between px-6 md:px-20 py-4 fixed top-0 left-0 right-0 z-[150] bg-white/75 backdrop-blur-xl saturate-[180%] border-b border-black/[0.05] shadow-sm w-full transition-all duration-300">
                 <div className="flex items-center gap-2 relative z-[210]">
                     <Link href="/" className="serif-heading text-2xl font-extrabold tracking-tight text-charcoal" onClick={closeMenu}>
                         Scribe.CV
@@ -52,7 +52,7 @@ export default function Header() {
                                     href="/"
                                     className="text-xs uppercase tracking-[0.2em] font-bold text-charcoal hover:text-primary transition-colors"
                                 >
-                                    Scribe
+                                    Editor
                                 </Link>
                                 <Link
                                     href="/history"
@@ -117,7 +117,7 @@ export default function Header() {
             </header>
 
             {/* Spacer to prevent content from being hidden under the fixed header */}
-            <div className="h-[82px] md:h-[88px]" />
+            <div className="h-[64px] md:h-[72px]" />
 
             {/* Mobile Navigation Overlay */}
             {isMenuOpen && (
@@ -129,7 +129,7 @@ export default function Header() {
                             onClick={closeMenu}
                             className="serif-heading text-6xl text-charcoal hover:text-primary transition-colors"
                         >
-                            Scribe
+                            Editor
                         </Link>
                         <Link
                             href="/history"

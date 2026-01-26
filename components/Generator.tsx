@@ -44,14 +44,12 @@ export default function Generator() {
     const handleUpgrade = useCallback(async () => {
         setIsUpgrading(true);
         setError("");
-        console.log("Starting upgrade process...");
         try {
             const response = await fetch("/api/stripe/checkout", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
             });
             const data = await response.json();
-            console.log("Upgrade API Response:", data);
 
             if (data.url) {
                 window.location.href = data.url;

@@ -16,7 +16,7 @@ import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://scribe-cv.vercel.app"), // Placeholder, adjust if you have a custom domain
+  metadataBase: new URL("https://scribe.cv"),
   title: {
     default: "Scribe.CV | Write Tailored Cover Letters with AI Alignment",
     template: "%s | Scribe.CV"
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://scribe-cv.vercel.app",
+    url: "https://scribe.cv",
     siteName: "Scribe.CV",
     title: "Scribe.CV | Contextual AI Cover Letters",
     description: "Your CV + Any Job Link = One Perfect Cover Letter. Alignment in seconds.",
@@ -48,7 +48,12 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   icons: {
-    icon: "/convex.svg",
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
 };
 

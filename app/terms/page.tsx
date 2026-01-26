@@ -64,7 +64,7 @@ export default function TermsPage() {
                         Version 1.0.2 / Jan 2026
                     </p>
                     <Link href="/" className="inline-block text-xs font-black uppercase tracking-[0.3em] border-b-2 border-primary pb-1">
-                        Back to Scribe
+                        Back to Scribe.CV
                     </Link>
                 </section>
             </div>

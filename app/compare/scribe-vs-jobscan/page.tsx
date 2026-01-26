@@ -36,7 +36,7 @@ export default function ScribeVsJobscan() {
                         <div className="absolute top-0 right-0 p-8">
                             <Sparkles size={24} className="text-primary animate-pulse" />
                         </div>
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Scribe Advantage</h2>
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Scribe.CV Advantage</h2>
                         <h3 className="serif-heading text-4xl font-extrabold leading-tight">Semantic Resonance.</h3>
                         <p className="text-sm text-white/50 leading-relaxed font-medium">
                             Scribe.CV understands the <strong>intent</strong> behind the job description. Instead of keyword counting, we perform competency mapping—ensuring your professional narrative mirrors the language and values of the hiring team.

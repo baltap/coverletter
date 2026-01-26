@@ -36,7 +36,7 @@ export default function ScribeVsTeal() {
                         <div className="absolute top-0 right-0 p-8">
                             <Sparkles size={24} className="text-primary animate-pulse" />
                         </div>
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Scribe Advantage</h2>
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Scribe.CV Advantage</h2>
                         <h3 className="serif-heading text-4xl font-extrabold leading-tight">Contextual Mirroring.</h3>
                         <p className="text-sm text-white/50 leading-relaxed font-medium">
                             Scribe.CV doesn't just store data; it <strong>aligns</strong> it. Our engine scrapes the specific job posting, analyzes the recruiter's specific intent, and mirrors your history to their future roadmap.

@@ -7,8 +7,8 @@ export default function JsonLd() {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Scribe.CV",
-        "url": "https://scribe-cv.vercel.app",
-        "logo": "https://scribe-cv.vercel.app/convex.svg", // Using existing icon as logo
+        "url": "https://scribe.cv",
+        "logo": "https://scribe.cv/android-chrome-512x512.png", // Using high-res icon as logo
         "description": "Contextual AI Cover Letter Generator for career alignment."
     };
 
