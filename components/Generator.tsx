@@ -349,7 +349,7 @@ export default function Generator() {
                                     </button>
                                 ) : (
                                     <SignInButton mode="modal">
-                                        <button className="text-[10px] font-black underline uppercase tracking-widest text-primary hover:text-charcoal transition-colors">
+                                        <button className="text-[10px] font-black underline uppercase tracking-widest text-primary hover:text-charcoal transition-colors cursor-pointer">
                                             SIGN IN NOW
                                         </button>
                                     </SignInButton>
@@ -361,7 +361,7 @@ export default function Generator() {
                                     setLimitReached(false);
                                 }}
                                 aria-label="Dismiss warning"
-                                className="text-charcoal hover:text-primary font-black text-xs p-1 transition-colors"
+                                className="text-charcoal hover:text-primary font-black text-xs p-1 transition-colors cursor-pointer"
                             >
                                 DISMISS
                             </button>
@@ -415,7 +415,7 @@ export default function Generator() {
                                             e.stopPropagation();
                                             setShowCV(!showCV);
                                         }}
-                                        className="mt-6 text-[10px] font-black uppercase tracking-widest text-primary hover:text-charcoal transition-colors border-b-2 border-primary/20"
+                                        className="mt-6 text-[10px] font-black uppercase tracking-widest text-primary hover:text-charcoal transition-colors border-b-2 border-primary/20 cursor-pointer"
                                     >
                                         {showCV ? "Close Editor" : "Review Profile"}
                                     </button>
@@ -459,7 +459,7 @@ export default function Generator() {
                                             <button
                                                 type="button"
                                                 onClick={() => setShowManual(true)}
-                                                className="mt-2 text-[9px] font-black uppercase tracking-widest border-b border-charcoal/20"
+                                                className="mt-2 text-[9px] font-black uppercase tracking-widest border-b border-charcoal/20 cursor-pointer"
                                             >
                                                 Manual Override
                                             </button>
@@ -494,7 +494,7 @@ export default function Generator() {
                                             <button
                                                 type="button"
                                                 onClick={() => setShowManual(false)}
-                                                className="text-[9px] font-black uppercase tracking-widest text-charcoal/40"
+                                                className="text-[9px] font-black uppercase tracking-widest text-charcoal/40 cursor-pointer"
                                             >
                                                 Revert to Auto
                                             </button>
@@ -523,7 +523,7 @@ export default function Generator() {
                                                 type="button"
                                                 onClick={handleUpgrade}
                                                 disabled={isUpgrading}
-                                                className="w-full bg-primary text-white py-5 font-black text-sm uppercase tracking-[0.3em] hover:brightness-110 transition-all rounded-sm flex items-center justify-center gap-2"
+                                                className="w-full bg-primary text-white py-5 font-black text-sm uppercase tracking-[0.3em] hover:brightness-110 transition-all rounded-sm flex items-center justify-center gap-2 cursor-pointer"
                                             >
                                                 {isUpgrading ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
                                                 {isUpgrading ? "PREPARING..." : "UPGRADE TO MAX — $4.99"}
@@ -537,7 +537,7 @@ export default function Generator() {
                                                         afterSignInUrl: "/?trigger_upgrade=true"
                                                     });
                                                 }}
-                                                className="w-full bg-primary text-white py-5 font-black text-sm uppercase tracking-[0.3em] hover:brightness-110 transition-all rounded-sm flex items-center justify-center gap-2"
+                                                className="w-full bg-primary text-white py-5 font-black text-sm uppercase tracking-[0.3em] hover:brightness-110 transition-all rounded-sm flex items-center justify-center gap-2 cursor-pointer"
                                             >
                                                 <Lock size={18} />
                                                 SIGN UP TO CONTINUE
@@ -547,7 +547,7 @@ export default function Generator() {
                                         <button
                                             type="submit"
                                             disabled={isGenerating || !cvText || !jobUrl}
-                                            className="w-full bg-primary text-white py-5 font-black text-sm uppercase tracking-[0.3em] hover:brightness-110 transition-all rounded-sm disabled:opacity-50 disabled:grayscale"
+                                            className="w-full bg-primary text-white py-5 font-black text-sm uppercase tracking-[0.3em] hover:brightness-110 transition-all rounded-sm disabled:opacity-50 disabled:grayscale cursor-pointer disabled:cursor-not-allowed"
                                         >
                                             {isGenerating ? (
                                                 <span className="flex items-center justify-center gap-3">

@@ -7,5 +7,9 @@ export default {
       domain: "https://clerk.scribe.cv",
       applicationID: "convex",
     },
+    {
+      domain: "https://happy-antelope-82.clerk.accounts.dev",
+      applicationID: "convex",
+    },
   ],
 } satisfies AuthConfig;
