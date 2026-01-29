@@ -15,6 +15,7 @@
     "@clerk/clerk-react": "^5.56.0",
     "@clerk/nextjs": "^6.35.2",
     "@google/generative-ai": "^0.24.1",
+    "@next/third-parties": "^16.1.6",
     "axios": "^1.13.2",
     "cheerio": "^1.1.2",
     "convex": "^1.31.0",

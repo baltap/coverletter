@@ -14,6 +14,8 @@ import {
 import SyncUser from "@/components/SyncUser";
 import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://scribe.cv"),
@@ -72,7 +74,11 @@ export default function RootLayout({
           <ConvexClientProvider>
             <SyncUser />
             <JsonLd />
+            {process.env.NEXT_PUBLIC_GA_ID && (
+              <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+            )}
             <Header />
+
             <main className="flex-grow">{children}</main>
             <footer className="border-t border-charcoal/10 px-6 md:px-20 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
               <Link href="/" className="serif-heading text-xl font-bold hover:text-primary transition-colors">Scribe.CV</Link>

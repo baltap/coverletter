@@ -7,6 +7,8 @@ import { Sparkles, AlertCircle, Loader2, Lock } from "lucide-react";
 import { SignInButton, SignUpButton, useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
+import { sendGAEvent } from "@next/third-parties/google";
+
 
 export default function Generator() {
     const [cvText, setCvText] = useState("");
@@ -42,7 +44,9 @@ export default function Generator() {
     const [isUpgrading, setIsUpgrading] = useState(false);
 
     const handleUpgrade = useCallback(async () => {
+        sendGAEvent("event", "click_upgrade", { value: "4.99" });
         setIsUpgrading(true);
+
         setError("");
         try {
             const response = await fetch("/api/stripe/checkout", {
@@ -280,6 +284,13 @@ export default function Generator() {
             const letterText = result.data!;
             setGeneratedLetter(letterText);
             setGeneratedModel(result.model || "");
+
+            sendGAEvent("event", "generate_letter", {
+                model: result.model,
+                company: currentCompany,
+                is_guest: !user
+            });
+
 
             // 3. Save to localStorage (fallback for guests)
             const guestLetter = {
@@ -820,8 +831,10 @@ export default function Generator() {
                                 onClick={() => {
                                     navigator.clipboard.writeText(generatedLetter);
                                     setCopied(true);
+                                    sendGAEvent("event", "copy_letter");
                                     setTimeout(() => setCopied(false), 2000);
                                 }}
+
                                 className={`px-8 py-3 text-[10px] uppercase tracking-[0.3em] font-black transition-all ${copied
                                     ? "bg-primary text-white"
                                     : "bg-charcoal text-white hover:bg-primary"

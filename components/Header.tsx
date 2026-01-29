@@ -11,6 +11,8 @@ import {
     SignedOut,
 } from "@clerk/nextjs";
 import { LogOut, Menu, X } from "lucide-react";
+import { sendGAEvent } from "@next/third-parties/google";
+
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -70,15 +72,22 @@ export default function Header() {
                                 <SignedOut>
                                     <div className="hidden md:flex items-center gap-4 text-charcoal">
                                         <SignInButton mode="modal">
-                                            <button className="text-xs uppercase tracking-[0.2em] font-bold hover:text-primary transition-colors cursor-pointer mr-4">
+                                            <button
+                                                onClick={() => sendGAEvent("event", "login_click")}
+                                                className="text-xs uppercase tracking-[0.2em] font-bold hover:text-primary transition-colors cursor-pointer mr-4"
+                                            >
                                                 Login
                                             </button>
                                         </SignInButton>
                                         <SignUpButton mode="modal">
-                                            <button className="bg-charcoal text-white px-6 py-2 text-xs uppercase tracking-[0.2em] font-bold rounded-sm hover:bg-primary transition-all cursor-pointer">
+                                            <button
+                                                onClick={() => sendGAEvent("event", "signup_click")}
+                                                className="bg-charcoal text-white px-6 py-2 text-xs uppercase tracking-[0.2em] font-bold rounded-sm hover:bg-primary transition-all cursor-pointer"
+                                            >
                                                 Join Free
                                             </button>
                                         </SignUpButton>
+
                                     </div>
                                 </SignedOut>
                                 <SignedIn>

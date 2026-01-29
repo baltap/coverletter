@@ -35,6 +35,11 @@
                         "key": "CONVEX_DEPLOYMENT",
                         "scope": "RUN_AND_BUILD_TIME",
                         "value": "prod:hidden-dinosaur-270"
+                    },
+                    {
+                        "key": "NEXT_PUBLIC_GA_ID",
+                        "scope": "RUN_AND_BUILD_TIME",
+                        "value": "G-FSCRH2269S"
                     }
                 ]
             }
