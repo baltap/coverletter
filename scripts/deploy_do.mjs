@@ -20,7 +20,8 @@ const REQUIRED_KEYS = [
     'STRIPE_WEBHOOK_SECRET',
     'GEMINI_API_KEY',
     'NEXT_PUBLIC_APP_URL',
-    'CLERK_JWT_ISSUER_DOMAIN'
+    'CLERK_JWT_ISSUER_DOMAIN',
+    'NEXT_PUBLIC_GA_ID'
 ];
 
 // Production Defaults we know

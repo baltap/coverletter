@@ -74,8 +74,8 @@ export default function RootLayout({
           <ConvexClientProvider>
             <SyncUser />
             <JsonLd />
-            {process.env.NEXT_PUBLIC_GA_ID && (
-              <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+            {(process.env.NEXT_PUBLIC_GA_ID || "G-FSCRH2269S") && (
+              <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-FSCRH2269S"} />
             )}
             <Header />
 
