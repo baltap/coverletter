@@ -15,7 +15,7 @@ import { Suspense } from "react";
 import SyncUser from "@/components/SyncUser";
 import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import Analytics from "@/components/Analytics";
 
 
 export const metadata: Metadata = {
@@ -78,7 +78,7 @@ export default function RootLayout({
             </Suspense>
             <JsonLd />
             {(process.env.NEXT_PUBLIC_GA_ID || "G-FSCRH2269S") && (
-              <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-FSCRH2269S"} />
+              <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-FSCRH2269S"} />
             )}
             <Header />
 
