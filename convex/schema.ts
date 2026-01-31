@@ -14,7 +14,11 @@ export default defineSchema({
     isMax: v.optional(v.boolean()),
     isPro: v.optional(v.boolean()),
     stripeCustomerId: v.optional(v.string()),
-  }).index("by_token", ["tokenIdentifier"]),
+    referralCode: v.optional(v.string()),
+    referralBalance: v.optional(v.number()),
+    referredBy: v.optional(v.string()), // user ID or token identifier
+  }).index("by_token", ["tokenIdentifier"])
+    .index("by_referral_code", ["referralCode"]),
   coverLetters: defineTable({
     userId: v.id("users"),
     jobUrl: v.optional(v.string()),

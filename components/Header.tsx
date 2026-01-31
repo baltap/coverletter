@@ -10,17 +10,46 @@ import {
     SignedIn,
     SignedOut,
 } from "@clerk/nextjs";
-import { LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, X, Sparkles, Loader2 } from "lucide-react";
 import { sendGAEvent } from "@next/third-parties/google";
+import { useQuery } from "convex/react";
+import { api } from "../convex/_generated/api";
 
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const [isUpgrading, setIsUpgrading] = useState(false);
+
+    const isMax = useQuery(api.payments.getMaxStatus);
+    const user = useQuery(api.users.currentUser);
 
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    const handleUpgrade = async () => {
+        sendGAEvent("event", "click_upgrade_header", { value: "4.99" });
+        setIsUpgrading(true);
+
+        try {
+            const response = await fetch("/api/stripe/checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await response.json();
+
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                console.error("Failed to initiate checkout:", data.error);
+                setIsUpgrading(false);
+            }
+        } catch (error: any) {
+            console.error("Upgrade failed:", error);
+            setIsUpgrading(false);
+        }
+    };
 
     // Lock body scroll when menu is open
     useEffect(() => {
@@ -92,6 +121,20 @@ export default function Header() {
                                 </SignedOut>
                                 <SignedIn>
                                     <div className="flex items-center gap-4 md:gap-6">
+                                        {mounted && isMax === false && (
+                                            <button
+                                                onClick={handleUpgrade}
+                                                disabled={isUpgrading}
+                                                className="hidden md:flex items-center gap-2 px-4 py-1.5 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-sm hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer"
+                                            >
+                                                {isUpgrading ? (
+                                                    <Loader2 size={12} className="animate-spin" />
+                                                ) : (
+                                                    <Sparkles size={12} />
+                                                )}
+                                                Upgrade to Max
+                                            </button>
+                                        )}
                                         <SignOutButton>
                                             <button className="hidden md:flex text-xs uppercase tracking-[0.2em] font-bold text-charcoal/60 hover:text-primary transition-colors cursor-pointer items-center gap-1.5 focus:outline-none">
                                                 <LogOut size={14} />
@@ -172,6 +215,38 @@ export default function Header() {
                                 </SignedOut>
 
                                 <SignedIn>
+                                    {isMax === false && (
+                                        <button
+                                            onClick={() => {
+                                                closeMenu();
+                                                handleUpgrade();
+                                            }}
+                                            disabled={isUpgrading}
+                                            className="w-full bg-primary text-white py-5 px-8 serif-heading text-2xl text-left hover:brightness-110 transition-all mb-8 flex items-center justify-between"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                {isUpgrading ? <Loader2 className="animate-spin" /> : <Sparkles />}
+                                                <span>Upgrade to Max</span>
+                                            </div>
+                                            <span className="text-xs font-black tracking-widest opacity-60">$4.99</span>
+                                        </button>
+                                    )}
+                                    {user?.referralCode && (
+                                        <div className="p-6 bg-zinc-50 swiss-border mb-8">
+                                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-2">Invite for Bonus Generations</p>
+                                            <p className="text-xs font-bold text-charcoal/60 leading-relaxed mb-4">Refer a friend and you both get +2 generations for free.</p>
+                                            <button
+                                                onClick={() => {
+                                                    const link = `https://scribe.cv/?ref=${user.referralCode}`;
+                                                    navigator.clipboard.writeText(link);
+                                                    alert("Referral link copied!");
+                                                }}
+                                                className="w-full py-4 border border-charcoal/10 text-[10px] font-black uppercase tracking-widest text-charcoal hover:bg-white transition-colors flex items-center justify-center gap-2"
+                                            >
+                                                Copy Invite Link
+                                            </button>
+                                        </div>
+                                    )}
                                     <div className="pt-10 border-t border-charcoal/10 mt-4">
                                         <SignOutButton>
                                             <button

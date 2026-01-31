@@ -22,8 +22,8 @@ export async function POST(req: Request) {
                     price_data: {
                         currency: "usd",
                         product_data: {
-                            name: "Scribe.CV Max",
-                            description: "Unlimited AI Cover Letter Generations",
+                            name: "Scribe.CV Master License",
+                            description: "Lifetime Early Adopter License - Unlimited AI Alignment",
                         },
                         unit_amount: 499,
                     },

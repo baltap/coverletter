@@ -46,5 +46,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.7,
         },
-    ]
+        {
+            url: `${baseUrl}/pricing`,
+            lastModified: new Date(),
+            changeFrequency: "monthly",
+            priority: 0.8,
+        },
+        ...['software-engineer', 'product-manager', 'marketing-manager', 'data-analyst'].map(role => ({
+            url: `${baseUrl}/roles/${role}`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.6,
+        }))
+    ];
 }

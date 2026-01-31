@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useMutation, useAction, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { Sparkles, AlertCircle, Loader2, Lock } from "lucide-react";
+import { Sparkles, AlertCircle, Loader2, Lock, Zap, Linkedin } from "lucide-react";
 import { SignInButton, SignUpButton, useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
@@ -42,6 +42,20 @@ export default function Generator() {
     const clerk = useClerk();
 
     const [isUpgrading, setIsUpgrading] = useState(false);
+    const [shared, setShared] = useState(false);
+
+    const handleShareLinkedIn = useCallback(() => {
+        const text = `Just used Scribe.CV to tailor my application for ${companyName || "a new role"}. The AI alignment precision is incredible. \n\nProfessionalism simplified. Check it out: https://scribe.cv \n\n#ScribeCV #JobSearch #CareerAlignment #AI`;
+        navigator.clipboard.writeText(text);
+        setShared(true);
+        sendGAEvent("event", "share_linkedin_click");
+
+        // Small delay to allow clipboard copy before opening window
+        setTimeout(() => {
+            window.open("https://www.linkedin.com/sharing/share-offsite/?url=https://scribe.cv", "_blank");
+            setShared(false);
+        }, 1500);
+    }, [companyName]);
 
     const handleUpgrade = useCallback(async () => {
         sendGAEvent("event", "click_upgrade", { value: "4.99" });
@@ -73,7 +87,8 @@ export default function Generator() {
         if (isMax) return "UNLIMITED";
         if (user) {
             const count = userHistory?.length || 0;
-            return Math.max(0, 3 - count).toString();
+            const limit = 3 + (user.referralBalance || 0);
+            return Math.max(0, limit - count).toString();
         }
         return Math.max(0, 1 - guestGens).toString();
     }, [user, isMax, userHistory, guestGens]);
@@ -828,6 +843,13 @@ export default function Generator() {
                                 NEW TASK
                             </button>
                             <button
+                                onClick={handleShareLinkedIn}
+                                className={`px-8 py-3 text-[10px] uppercase tracking-[0.3em] font-black transition-all flex items-center gap-2 border border-charcoal/10 ${shared ? 'bg-zinc-100 text-charcoal' : 'bg-white text-charcoal hover:bg-zinc-50'}`}
+                            >
+                                <Linkedin size={12} className={shared ? 'text-blue-600' : ''} />
+                                {shared ? "POST COPIED" : "SHARE SUCCESS"}
+                            </button>
+                            <button
                                 onClick={() => {
                                     navigator.clipboard.writeText(generatedLetter);
                                     setCopied(true);
@@ -844,6 +866,31 @@ export default function Generator() {
                             </button>
                         </div>
                     </div>
+
+                    {/* Post-Gen Conversion Prompt */}
+                    {!isMax && (
+                        <div className="bg-primary/5 border border-primary/20 p-8 flex flex-col md:flex-row items-center justify-between gap-6 animate-in slide-in-from-top-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-primary flex items-center justify-center rounded-sm shrink-0">
+                                    <Sparkles size={24} className="text-white" />
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-black uppercase tracking-widest text-charcoal mb-1">Alignment Success: 98% Confidence</h4>
+                                    <p className="text-xs font-medium text-charcoal/60 leading-relaxed">
+                                        Don't lose this surgical precision. Upgrade to **Scribe.CV Max** for lifetime unlimited access and advanced career alignment.
+                                    </p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={handleUpgrade}
+                                disabled={isUpgrading}
+                                className="bg-charcoal text-white px-8 py-4 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-primary transition-all rounded-sm flex items-center justify-center gap-2 shrink-0 cursor-pointer"
+                            >
+                                {isUpgrading ? <Loader2 size={12} className="animate-spin" /> : <Zap size={12} className="text-primary fill-primary" />}
+                                {isUpgrading ? "Redirecting..." : "Get Lifetime Max"}
+                            </button>
+                        </div>
+                    )}
 
                     {/* Preview Area */}
                     <div className="bg-white swiss-border p-12 md:p-20 relative">

@@ -11,6 +11,7 @@ import {
   SignedIn,
   SignedOut,
 } from "@clerk/nextjs";
+import { Suspense } from "react";
 import SyncUser from "@/components/SyncUser";
 import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
@@ -72,7 +73,9 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col bg-background-light text-charcoal" suppressHydrationWarning>
         <ClerkProvider dynamic>
           <ConvexClientProvider>
-            <SyncUser />
+            <Suspense fallback={null}>
+              <SyncUser />
+            </Suspense>
             <JsonLd />
             {(process.env.NEXT_PUBLIC_GA_ID || "G-FSCRH2269S") && (
               <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-FSCRH2269S"} />

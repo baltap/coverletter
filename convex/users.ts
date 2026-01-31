@@ -10,15 +10,14 @@ import { mutation, query } from "./_generated/server";
  * Returns the user's ID.
  */
 export const store = mutation({
-    args: {},
+    args: { referredByCode: v.optional(v.string()) },
     returns: v.id("users"),
-    handler: async (ctx) => {
+    handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
         if (!identity) {
             throw new Error("Called storeUser without authentication present");
         }
 
-        // Check if we've already stored this identity before.
         const user = await ctx.db
             .query("users")
             .withIndex("by_token", (q) =>
@@ -27,17 +26,38 @@ export const store = mutation({
             .unique();
 
         if (user !== null) {
-            // If we've seen this identity before but the name has changed, patch it.
             if (user.name !== identity.name) {
                 await ctx.db.patch(user._id, { name: identity.name });
             }
             return user._id;
         }
 
-        // If it's a new identity, create a new `User`.
+        // Handle referral if provided
+        let referredByIdentifier = undefined;
+        if (args.referredByCode) {
+            const referrer = await ctx.db
+                .query("users")
+                .withIndex("by_referral_code", (q) => q.eq("referralCode", args.referredByCode))
+                .unique();
+
+            if (referrer) {
+                referredByIdentifier = referrer.tokenIdentifier;
+                // Reward the referrer immediately with +2 generations
+                await ctx.db.patch(referrer._id, {
+                    referralBalance: (referrer.referralBalance || 0) + 2
+                });
+            }
+        }
+
+        // Generate a 4-character hex code for referral
+        const referralCode = Math.random().toString(36).substring(2, 6).toUpperCase();
+
         return await ctx.db.insert("users", {
             name: identity.name!,
             tokenIdentifier: identity.tokenIdentifier,
+            referralCode,
+            referralBalance: args.referredByCode ? 2 : 0, // Reward the new user too
+            referredBy: referredByIdentifier,
         });
     },
 });
@@ -102,20 +122,23 @@ export const checkUsage = query({
             // Upgrade/Max users have unlimited access
             if (user.isMax || user.isPro) return { allowed: true, isMax: true };
 
-            // Members (standard users) have a 3-letter limit
             const count = await ctx.db
                 .query("coverLetters")
                 .withIndex("by_user", (q) => q.eq("userId", user._id))
                 .collect();
 
-            if (count.length >= 3) {
+            const baseLimit = 3;
+            const bonusGens = user.referralBalance || 0;
+            const totalLimit = baseLimit + bonusGens;
+
+            if (count.length >= totalLimit) {
                 return {
                     allowed: false,
-                    reason: "Monthly generation limit reached (3/3). Please upgrade to Scribe.CV Max for unlimited access."
+                    reason: `Generation limit reached (${count.length}/${totalLimit}). Referral bonus adds +2 per friend. Upgrade to Scribe.CV Max for unlimited access.`
                 };
             }
 
-            return { allowed: true, count: count.length, limit: 3 };
+            return { allowed: true, count: count.length, limit: totalLimit };
         }
 
         // Guest logic (minimal protection via anonymousId)
