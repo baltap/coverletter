@@ -26,8 +26,15 @@ export const store = mutation({
             .unique();
 
         if (user !== null) {
+            const patches: any = {};
             if (user.name !== identity.name) {
-                await ctx.db.patch(user._id, { name: identity.name });
+                patches.name = identity.name;
+            }
+            if (!user.referralCode) {
+                patches.referralCode = Math.random().toString(36).substring(2, 6).toUpperCase();
+            }
+            if (Object.keys(patches).length > 0) {
+                await ctx.db.patch(user._id, patches);
             }
             return user._id;
         }
