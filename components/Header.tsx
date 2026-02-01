@@ -10,7 +10,7 @@ import {
     SignedIn,
     SignedOut,
 } from "@clerk/nextjs";
-import { LogOut, Menu, X, Sparkles, Loader2 } from "lucide-react";
+import { LogOut, Menu, X, Sparkles, Loader2, Zap } from "lucide-react";
 import { sendGAEvent } from "@next/third-parties/google";
 import { useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
