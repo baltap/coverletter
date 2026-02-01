@@ -135,6 +135,19 @@ export default function Header() {
                                                 Upgrade to Max
                                             </button>
                                         )}
+                                        {user?.referralCode && (
+                                            <button
+                                                onClick={() => {
+                                                    const link = `https://scribe.cv/?ref=${user.referralCode}`;
+                                                    navigator.clipboard.writeText(link);
+                                                    alert("Referral link copied! Share it to get +2 generations per friend.");
+                                                }}
+                                                className="hidden md:flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] font-black text-primary hover:text-charcoal transition-colors cursor-pointer"
+                                            >
+                                                <Zap size={12} className="fill-primary" />
+                                                Refer Friends (+2)
+                                            </button>
+                                        )}
                                         <SignOutButton>
                                             <button className="hidden md:flex text-xs uppercase tracking-[0.2em] font-bold text-charcoal/60 hover:text-primary transition-colors cursor-pointer items-center gap-1.5 focus:outline-none">
                                                 <LogOut size={14} />
